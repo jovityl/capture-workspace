@@ -50,48 +50,69 @@ export default function CapturedList({ refreshToken }) {
             setError("Failed to save changes");
         }
     }
-return (
+
+    return (
     <div>
       {loading ? (
-        <p>Loading</p>
+        <p className="px-4 py-3 text-sm text-slate-400">Loading</p>
       ) : items.length === 0 ? (
-        <p>No items found</p>
+        <p className="px-4 py-3 text-sm text-slate-400">No items found</p>
       ) : (
-        <ul>
+        <ul className="divide-y divide-slate-800">
           {items.map((item) => (
-            <li key={item.id}>
+            <li
+              key={item.id}
+              className="flex items-start justify-between gap-4 px-4 py-3"
+            >
               {editingId === item.id ? (
                 <>
                   <input
                     value={editValue}
                     onChange={(e) => setEditValue(e.target.value)}
+                    className="flex-1 bg-slate-950 text-slate-100 border border-slate-800 rounded-md px-2 py-1 text-sm"
                   />
-                  <button onClick={() => saveEdit(item.id)}>
-                    Save
-                  </button>
-                  <button
-                    onClick={() => {
-                      setEditingId(null);
-                      setEditValue("");
-                    }}
-                  >
-                    Cancel
-                  </button>
+
+                  <div className="flex gap-2 shrink-0">
+                    <button
+                      onClick={() => saveEdit(item.id)}
+                      className="px-3 py-1 text-xs border border-indigo-600 rounded-md text-indigo-300"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEditingId(null);
+                        setEditValue("");
+                      }}
+                      className="px-3 py-1 text-xs border border-slate-600 rounded-md text-slate-300"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </>
               ) : (
                 <>
-                  <p>{item.content}</p>
-                  <button
-                    onClick={() => {
-                      setEditingId(item.id);
-                      setEditValue(item.content);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button onClick={() => deleteItems(item.id)}>
-                    Delete
-                  </button>
+                  <p className="flex-1 text-sm text-slate-100 break-words">
+                    {item.content}
+                  </p>
+
+                  <div className="flex gap-2 shrink-0">
+                    <button
+                      onClick={() => {
+                        setEditingId(item.id);
+                        setEditValue(item.content);
+                      }}
+                      className="px-3 py-1 text-xs border border-slate-600 rounded-md text-slate-300"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deleteItems(item.id)}
+                      className="px-3 py-1 text-xs border border-slate-600 rounded-md text-slate-300"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </>
               )}
             </li>
@@ -99,13 +120,11 @@ return (
         </ul>
       )}
 
-      {error && <p>{error}</p>}
+      {error && (
+        <p className="px-4 py-2 text-sm text-rose-300">
+          {error}
+        </p>
+      )}
     </div>
   );
-}
-
-
-
-
-
-
+};
